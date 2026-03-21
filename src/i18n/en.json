@@ -14,7 +14,8 @@
   "nav": {
     "schedule": "Schedule",
     "settings": "Settings",
-    "admin": "Admin"
+    "admin": "Admin",
+    "logout": "Logout"
   },
   "hero": {
     "welcome": "Welcome to see {{name}}!",

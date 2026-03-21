@@ -14,7 +14,8 @@
   "nav": {
     "schedule": "Agenda",
     "settings": "Configurações",
-    "admin": "Admin"
+    "admin": "Painel",
+    "logout": "Sair"
   },
   "hero": {
     "welcome": "Bem-vindo para visitar o {{name}}!",

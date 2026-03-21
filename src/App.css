@@ -197,13 +197,17 @@ h1, h2, h3, h4 {
 }
 
 .hour-btn {
-  height: auto;
+  min-height: 100px;
+  display: flex;
   flex-direction: column;
-  padding: 1.5rem;
-  border: 2px solid transparent;
+  padding: 1.25rem 1.5rem;
+  border: 2px solid var(--color-primary-navy);
   background: white;
   color: var(--color-primary-navy);
   box-shadow: var(--shadow-floating);
+  border-radius: 9999px; /* Pill shaped */
+  justify-content: center;
+  align-items: center;
 }
 
 .hour-btn.selected {
