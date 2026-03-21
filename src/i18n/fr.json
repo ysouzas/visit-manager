@@ -1,0 +1,63 @@
+{
+  "common": {
+    "back": "Retour",
+    "back_to_slots": "Retour aux créneaux",
+    "back_to_visitor_view": "Retour à la vue visiteur",
+    "confirm": "Confirmer",
+    "spots_left": "{{count}} places restantes",
+    "full": "Complet",
+    "no_spots": "Plus de places",
+    "book_visit": "Réserver une visite",
+    "today": "Aujourd'hui",
+    "save_local_hint": "Les modifications sont enregistrées localement pour ce prototype."
+  },
+  "nav": {
+    "schedule": "Planning",
+    "settings": "Paramètres"
+  },
+  "hero": {
+    "welcome": "Bienvenue pour voir {{name}} !",
+    "from": "De la part de {{names}}",
+    "subtitle": "Nous sommes ravis de vous présenter notre nouveau-né ! Veuillez choisir un créneau ci-dessous pour venir nous voir."
+  },
+  "booking": {
+    "title": "Réservez votre visite",
+    "date": "Date",
+    "time": "Heure",
+    "visitor_name": "Votre Nom",
+    "visitor_name_placeholder": "ex: Mamie Jeanne",
+    "visitor_count": "Nombre de Visiteurs",
+    "confirm_btn": "Confirmer la visite"
+  },
+  "success": {
+    "title": "À bientôt, {{name}} !",
+    "message": "Tout est prêt pour votre visite à <strong>{{babyName}}</strong>.",
+    "where": "Où",
+    "when": "Quand",
+    "room": "Chambre",
+    "open_maps": "Ouvrir dans Google Maps",
+    "google_cal": "Ajouter à Google Calendar",
+    "add_to_apple": "Ajouter à Apple Calendar"
+  },
+  "settings": {
+    "title": "Tableau de bord parents",
+    "baby_name": "Nom du bébé",
+    "parent_names": "Noms des parents",
+    "hospital_name": "Nom de l'hôpital",
+    "maps_link": "Lien Google Maps"
+  },
+  "login": {
+    "title": "Accès Administrateur",
+    "subtitle": "Veuillez saisir le mot de passe pour gérer {{view}}.",
+    "password": "Mot de passe",
+    "password_placeholder": "Saisir le mot de passe",
+    "sign_in": "Se connecter",
+    "error": "Mot de passe incorrect"
+  },
+  "schedule": {
+    "title": "Visites réservées",
+    "empty": "Aucune visite réservée pour le moment. Avez-vous partagé le lien avec la famille ?",
+    "person": "personne",
+    "people": "personnes"
+  }
+}

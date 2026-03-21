@@ -1,0 +1,63 @@
+{
+  "common": {
+    "back": "Back",
+    "back_to_slots": "Back to Slots",
+    "back_to_visitor_view": "Back to Visitor View",
+    "confirm": "Confirm",
+    "spots_left": "{{count}} spots left",
+    "full": "Full",
+    "no_spots": "No Spots",
+    "book_visit": "Book Visit",
+    "today": "Today",
+    "save_local_hint": "Changes are saved locally for this prototype."
+  },
+  "nav": {
+    "schedule": "Schedule",
+    "settings": "Settings"
+  },
+  "hero": {
+    "welcome": "Welcome to see {{name}}!",
+    "from": "From {{names}}",
+    "subtitle": "We're so excited to introduce you to our new addition! Please pick a time slot below to come say hello."
+  },
+  "booking": {
+    "title": "Book your visit",
+    "date": "Date",
+    "time": "Time",
+    "visitor_name": "Your Name",
+    "visitor_name_placeholder": "e.g. Grandma Jane",
+    "visitor_count": "Number of Visitors",
+    "confirm_btn": "Confirm Visit"
+  },
+  "success": {
+    "title": "See you soon, {{name}}!",
+    "message": "You're all set to visit <strong>{{babyName}}</strong>.",
+    "where": "Where",
+    "when": "When",
+    "room": "Room",
+    "open_maps": "Open in Google Maps",
+    "google_cal": "Add to Google Calendar",
+    "add_to_apple": "Add to Apple Calendar"
+  },
+  "settings": {
+    "title": "Parent Dashboard",
+    "baby_name": "Baby's Name",
+    "parent_names": "Parent Names",
+    "hospital_name": "Hospital Name",
+    "maps_link": "Google Maps Link"
+  },
+  "login": {
+    "title": "Admin Access",
+    "subtitle": "Please enter the password to manage {{view}}.",
+    "password": "Password",
+    "password_placeholder": "Enter password",
+    "sign_in": "Sign In",
+    "error": "Incorrect password"
+  },
+  "schedule": {
+    "title": "Booked Visits",
+    "empty": "No visits booked yet. Sharing the link with family?",
+    "person": "person",
+    "people": "people"
+  }
+}

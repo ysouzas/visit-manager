@@ -1,0 +1,63 @@
+{
+  "common": {
+    "back": "Voltar",
+    "back_to_slots": "Voltar aos Horários",
+    "back_to_visitor_view": "Voltar à Visualização",
+    "confirm": "Confirmar",
+    "spots_left": "{{count}} vagas restantes",
+    "full": "Lotado",
+    "no_spots": "Sem Vagas",
+    "book_visit": "Agendar Visita",
+    "today": "Hoje",
+    "save_local_hint": "As alterações são salvas localmente para este protótipo."
+  },
+  "nav": {
+    "schedule": "Agenda",
+    "settings": "Configurações"
+  },
+  "hero": {
+    "welcome": "Bem-vindo para visitar o {{name}}!",
+    "from": "De {{names}}",
+    "subtitle": "Estamos muito felizes em apresentar nossa nova adição! Por favor, escolha um horário abaixo para vir nos ver."
+  },
+  "booking": {
+    "title": "Agende sua visita",
+    "date": "Data",
+    "time": "Hora",
+    "visitor_name": "Seu Nome",
+    "visitor_name_placeholder": "ex: Vovó Joana",
+    "visitor_count": "Número de Visitantes",
+    "confirm_btn": "Confirmar Visita"
+  },
+  "success": {
+    "title": "Até breve, {{name}}!",
+    "message": "Está tudo certo para visitar o <strong>{{babyName}}</strong>.",
+    "where": "Onde",
+    "when": "Quando",
+    "room": "Quarto",
+    "open_maps": "Abrir no Google Maps",
+    "google_cal": "Adicionar ao Google Calendar",
+    "add_to_apple": "Adicionar ao Apple Calendar"
+  },
+  "settings": {
+    "title": "Painel dos Pais",
+    "baby_name": "Nome do Bebê",
+    "parent_names": "Nomes dos Pais",
+    "hospital_name": "Nome do Hospital",
+    "maps_link": "Link Google Maps"
+  },
+  "login": {
+    "title": "Acesso de Administrador",
+    "subtitle": "Por favor, insira a senha para gerenciar {{view}}.",
+    "password": "Senha",
+    "password_placeholder": "Insira a senha",
+    "sign_in": "Entrar",
+    "error": "Senha incorreta"
+  },
+  "schedule": {
+    "title": "Visitas Agendadas",
+    "empty": "Ainda não há visitas agendadas. Já compartilhou o link com a família?",
+    "person": "pessoa",
+    "people": "pessoas"
+  }
+}

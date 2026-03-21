@@ -1,0 +1,63 @@
+{
+  "common": {
+    "back": "Voltar",
+    "back_to_slots": "Voltar aos Horários",
+    "back_to_visitor_view": "Voltar à Vista de Visitante",
+    "confirm": "Confirmar",
+    "spots_left": "{{count}} lugares disponíveis",
+    "full": "Cheio",
+    "no_spots": "Sem Lugares",
+    "book_visit": "Marcar Visita",
+    "today": "Hoje",
+    "save_local_hint": "As alterações são guardadas localmente para este protótipo."
+  },
+  "nav": {
+    "schedule": "Agenda",
+    "settings": "Definições"
+  },
+  "hero": {
+    "welcome": "Bem-vindo a visitar o {{name}}!",
+    "from": "De {{names}}",
+    "subtitle": "Estamos muito felizes por apresentar a nossa nova adição! Por favor, escolha um horário abaixo para nos vir ver."
+  },
+  "booking": {
+    "title": "Marque a sua visita",
+    "date": "Data",
+    "time": "Hora",
+    "visitor_name": "O seu Nome",
+    "visitor_name_placeholder": "ex: Avó Joana",
+    "visitor_count": "Número de Visitantes",
+    "confirm_btn": "Confirmar Visita"
+  },
+  "success": {
+    "title": "Vemo-nos em breve, {{name}}!",
+    "message": "Está tudo pronto para visitar o <strong>{{babyName}}</strong>.",
+    "where": "Onde",
+    "when": "Quando",
+    "room": "Quarto",
+    "open_maps": "Abrir no Google Maps",
+    "google_cal": "Adicionar ao Google Calendar",
+    "add_to_apple": "Adicionar ao Calendário Apple"
+  },
+  "settings": {
+    "title": "Painel dos Pais",
+    "baby_name": "Nome do Bebé",
+    "parent_names": "Nomes dos Pais",
+    "hospital_name": "Nome do Hospital",
+    "maps_link": "Link Google Maps"
+  },
+  "login": {
+    "title": "Acesso de Administrador",
+    "subtitle": "Por favor, introduza a palavra-passe para gerir {{view}}.",
+    "password": "Palavra-passe",
+    "password_placeholder": "Introduza a palavra-passe",
+    "sign_in": "Entrar",
+    "error": "Palavra-passe incorreta"
+  },
+  "schedule": {
+    "title": "Visitas Marcadas",
+    "empty": "Ainda não há visitas marcadas. Já partilhou o link com a família?",
+    "person": "pessoa",
+    "people": "pessoas"
+  }
+}
