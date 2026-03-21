@@ -63,5 +63,9 @@
     "empty": "Aucune visite réservée pour le moment. Avez-vous partagé le lien avec la famille ?",
     "person": "personne",
     "people": "personnes"
+  },
+  "page": {
+    "title": "Gestionnaire de Visites - Mateus",
+    "description": "Bienvenue Mateus ! Choisissez un créneau ci-dessous pour venir nous rendre visite et découvrir notre nouvelle addition à la famille."
   }
 }

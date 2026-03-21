@@ -73,5 +73,9 @@
   "schedule": {
     "title": "Vistias agendadas",
     "empty": "Nenhuma visita agendada ainda. Compartilhou o link com a família?"
+  },
+  "page": {
+    "title": "Gerenciador de Visitas -  Mateus",
+    "description": "Bem-vindo Mateus! Escolha um horário abaixo para vir nos visitar e conhecer nossa nova adição à família."
   }
 }

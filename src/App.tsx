@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
-import { useAppData } from './hooks/useAppData';
-import { api } from './services/api';
-import type { TimeSlot } from './types';
-import { generateGoogleCalendarLink } from './utils/calendar';
+import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { useAppData } from "./hooks/useAppData";
+import { api } from "./services/api";
+import type { TimeSlot } from "./types";
+import { generateGoogleCalendarLink } from "./utils/calendar";
 
 // Components
-import { Header } from './components/layout/Header';
-import { MyBooking } from './components/visitor/MyBooking';
-import { SlotPicker } from './components/visitor/SlotPicker';
-import { BookingForm } from './components/visitor/BookingForm';
-import { SuccessView } from './components/visitor/SuccessView';
-import { AdminLogin } from './components/admin/AdminLogin';
-import { AdminDashboard } from './components/admin/AdminDashboard';
-import { ManageSlots } from './components/admin/ManageSlots';
-import { Schedule } from './components/admin/Schedule';
+import { Header } from "./components/layout/Header";
+import { MyBooking } from "./components/visitor/MyBooking";
+import { SlotPicker } from "./components/visitor/SlotPicker";
+import { BookingForm } from "./components/visitor/BookingForm";
+import { SuccessView } from "./components/visitor/SuccessView";
+import { AdminLogin } from "./components/admin/AdminLogin";
+import { AdminDashboard } from "./components/admin/AdminDashboard";
+import { ManageSlots } from "./components/admin/ManageSlots";
+import { Schedule } from "./components/admin/Schedule";
 
-import './App.css';
+import "./App.css";
 
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'mateus';
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "mateus";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -31,52 +31,96 @@ function App() {
     myVisit,
     isLoading,
     fetchData,
-    handleCancelVisit
+    handleCancelVisit,
   } = useAppData();
 
   // Admin State
-  const [adminTab, setAdminTab] = useState<'schedule' | 'settings'>('schedule');
+  const [adminTab, setAdminTab] = useState<"schedule" | "settings">("schedule");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
+
   // Selection State
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
-  const [visitorName, setVisitorName] = useState('');
+  const [visitorName, setVisitorName] = useState("");
   const [visitorCount, setVisitorCount] = useState(1);
-  const [adminPassword, setAdminPassword] = useState('');
-  
-  const [newSlotDate, setNewSlotDate] = useState(new Date().toISOString().split('T')[0]);
-  const [newSlotStart, setNewSlotStart] = useState('10:00');
-  const [newSlotEnd, setNewSlotEnd] = useState('19:00');
+  const [adminPassword, setAdminPassword] = useState("");
+
+  const [newSlotDate, setNewSlotDate] = useState(
+    new Date().toISOString().split("T")[0],
+  );
+  const [newSlotStart, setNewSlotStart] = useState("10:00");
+  const [newSlotEnd, setNewSlotEnd] = useState("19:00");
   const [newMaxVisitors, setNewMaxVisitors] = useState(10);
+
+  // Update document title and meta tags based on language
+  useEffect(() => {
+    document.title = t("page.title");
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute("content", t("page.description"));
+    }
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute("content", t("page.title"));
+    }
+
+    const ogDescription = document.querySelector(
+      'meta[property="og:description"]',
+    );
+    if (ogDescription) {
+      ogDescription.setAttribute("content", t("page.description"));
+    }
+
+    const twitterTitle = document.querySelector(
+      'meta[property="twitter:title"]',
+    );
+    if (twitterTitle) {
+      twitterTitle.setAttribute("content", t("page.title"));
+    }
+
+    const twitterDescription = document.querySelector(
+      'meta[property="twitter:description"]',
+    );
+    if (twitterDescription) {
+      twitterDescription.setAttribute("content", t("page.description"));
+    }
+  }, [t]);
 
   // Admin Actions
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (adminPassword === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
-      setAdminPassword('');
+      setAdminPassword("");
     } else {
-      alert(t('login.error'));
+      alert(t("login.error"));
     }
   };
 
   const handleAddSlot = async () => {
-    const startHour = parseInt(newSlotStart.split(':')[0]);
-    const endHour = parseInt(newSlotEnd.split(':')[0]);
-    const slotsToCreate: Omit<TimeSlot, 'id'>[] = [];
+    const startHour = parseInt(newSlotStart.split(":")[0]);
+    const endHour = parseInt(newSlotEnd.split(":")[0]);
+    const slotsToCreate: Omit<TimeSlot, "id">[] = [];
 
     if (endHour > startHour) {
       for (let h = startHour; h < endHour; h++) {
         slotsToCreate.push({
           date: newSlotDate,
-          starttime: `${h.toString().padStart(2, '0')}:00`,
-          endtime: `${(h + 1).toString().padStart(2, '0')}:00`,
+          starttime: `${h.toString().padStart(2, "0")}:00`,
+          endtime: `${(h + 1).toString().padStart(2, "0")}:00`,
           currentvisitors: 0,
-          maxvisitors: newMaxVisitors
+          maxvisitors: newMaxVisitors,
         });
       }
     } else {
-      slotsToCreate.push({ date: newSlotDate, starttime: newSlotStart, endtime: newSlotEnd, currentvisitors: 0, maxvisitors: newMaxVisitors });
+      slotsToCreate.push({
+        date: newSlotDate,
+        starttime: newSlotStart,
+        endtime: newSlotEnd,
+        currentvisitors: 0,
+        maxvisitors: newMaxVisitors,
+      });
     }
 
     const { error } = await api.createSlots(slotsToCreate);
@@ -84,7 +128,7 @@ function App() {
   };
 
   const handleDeleteSlot = async (id: string) => {
-    if (!confirm('Are you sure?')) return;
+    if (!confirm("Are you sure?")) return;
     const { error } = await api.deleteSlot(id);
     if (!error) fetchData();
   };
@@ -106,15 +150,18 @@ function App() {
       visitorname: visitorName,
       visitorcount: visitorCount,
       rescuecode: rescueCode,
-      createdat: new Date().toISOString()
+      createdat: new Date().toISOString(),
     };
 
     const { data: savedVisit, error } = await api.createVisit(visitData);
     if (!error && savedVisit) {
-      await api.updateSlotVisitors(slot.id!, slot.currentvisitors + visitorCount);
-      localStorage.setItem('my_visit_id', savedVisit.id);
+      await api.updateSlotVisitors(
+        slot.id!,
+        slot.currentvisitors + visitorCount,
+      );
+      localStorage.setItem("my_visit_id", savedVisit.id);
       fetchData();
-      navigate('/success', { state: { rescueCode } });
+      navigate("/success", { state: { rescueCode } });
     }
   };
 
@@ -122,22 +169,24 @@ function App() {
     if (!code) return;
     const visit = await api.getVisitByCode(code.trim().toUpperCase());
     if (visit) {
-      localStorage.setItem('my_visit_id', visit.id);
+      localStorage.setItem("my_visit_id", visit.id);
       fetchData();
-      alert(t('booking.rescue_success'));
+      alert(t("booking.rescue_success"));
     } else {
-      alert(t('booking.rescue_error'));
+      alert(t("booking.rescue_error"));
     }
   };
 
   const onDownloadCalendar = (slot: TimeSlot) => {
     if (!slot) return;
-    window.open(generateGoogleCalendarLink(slot, config), '_blank');
+    window.open(generateGoogleCalendarLink(slot, config), "_blank");
   };
 
   const formatDateShort = (dateStr: string) => {
-    return new Date(dateStr + 'T12:00:00').toLocaleDateString(i18n.language, { 
-      weekday: 'short', day: 'numeric', month: 'short' 
+    return new Date(dateStr + "T12:00:00").toLocaleDateString(i18n.language, {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
     });
   };
 
@@ -148,90 +197,123 @@ function App() {
     <div className="app-container">
       <main className="main-content">
         <Routes>
-          <Route path="/" element={
-            <div className="fade-in">
-              <Header config={config} onAdminClick={() => navigate('/admin')} />
-              {myVisit && <MyBooking myVisit={myVisit} onCancel={() => handleCancelVisit(myVisit)} />}
-              {!myVisit && (
-                <div className="rescue-section">
-                  <button className="text-btn" onClick={() => {
-                    const code = prompt(t('booking.rescue_prompt'));
-                    if (code) handleRescueBooking(code);
-                  }}>
-                    ✨ {t('booking.rescue_btn')}
-                  </button>
-                </div>
-              )}
-              <SlotPicker 
-                slots={slots}
-                selectedDate={slots.length > 0 ? slots[0].date : ''} 
-                onDateSelect={() => {}} 
-                onSlotSelect={(slot) => { setSelectedSlot(slot); navigate(`/booking/${slot.id}`); }}
-                formatDateShort={formatDateShort}
-              />
-            </div>
-          } />
-          
-          <Route path="/booking/:slotId" element={
-            selectedSlot ? (
-              <BookingForm 
-                selectedSlot={selectedSlot}
-                visitorName={visitorName}
-                visitorCount={visitorCount}
-                onNameChange={setVisitorName}
-                onCountChange={setVisitorCount}
-                onConfirm={(e) => handleBooking(e, selectedSlot)}
-                onCancel={() => navigate('/')}
-              />
-            ) : <Navigate to="/" />
-          } />
-
-          <Route path="/success" element={
-            selectedSlot ? (
-              <SuccessView 
-                visitorName={visitorName}
-                config={config}
-                selectedSlot={selectedSlot}
-                onBack={() => navigate('/')}
-                onDownloadCalendar={() => onDownloadCalendar(selectedSlot)}
-              />
-            ) : <Navigate to="/" />
-          } />
-
-          <Route path="/admin" element={
-            !isAuthenticated ? (
-              <AdminLogin 
-                password={adminPassword} 
-                onPasswordChange={setAdminPassword} 
-                onSubmit={handleAdminLogin}
-                onCancel={() => navigate('/')}
-              />
-            ) : (
-              <AdminDashboard 
-                activeTab={adminTab} 
-                onTabChange={setAdminTab} 
-                onLogout={() => setIsAuthenticated(false)}
-              >
-                {adminTab === 'settings' ? (
-                  <ManageSlots 
-                    slots={slots}
-                    newSlotDate={newSlotDate} 
-                    newSlotStart={newSlotStart}
-                    newSlotEnd={newSlotEnd}
-                    maxVisitors={newMaxVisitors}
-                    onDateChange={setNewSlotDate}
-                    onStartChange={setNewSlotStart}
-                    onEndChange={setNewSlotEnd}
-                    onMaxVisitorsChange={setNewMaxVisitors}
-                    onAddSlot={handleAddSlot}
-                    onDeleteSlot={handleDeleteSlot}
+          <Route
+            path="/"
+            element={
+              <div className="fade-in">
+                <Header
+                  config={config}
+                  onAdminClick={() => navigate("/admin")}
+                />
+                {myVisit && (
+                  <MyBooking
+                    myVisit={myVisit}
+                    onCancel={() => handleCancelVisit(myVisit)}
                   />
-                ) : (
-                  <Schedule visits={visits} onCancelVisit={handleCancelVisit} />
                 )}
-              </AdminDashboard>
-            )
-          } />
+                {!myVisit && (
+                  <div className="rescue-section">
+                    <button
+                      className="text-btn"
+                      onClick={() => {
+                        const code = prompt(t("booking.rescue_prompt"));
+                        if (code) handleRescueBooking(code);
+                      }}
+                    >
+                      ✨ {t("booking.rescue_btn")}
+                    </button>
+                  </div>
+                )}
+                <SlotPicker
+                  slots={slots}
+                  selectedDate={slots.length > 0 ? slots[0].date : ""}
+                  onDateSelect={() => {}}
+                  onSlotSelect={(slot) => {
+                    setSelectedSlot(slot);
+                    navigate(`/booking/${slot.id}`);
+                  }}
+                  formatDateShort={formatDateShort}
+                />
+              </div>
+            }
+          />
+
+          <Route
+            path="/booking/:slotId"
+            element={
+              selectedSlot ? (
+                <BookingForm
+                  selectedSlot={selectedSlot}
+                  visitorName={visitorName}
+                  visitorCount={visitorCount}
+                  onNameChange={setVisitorName}
+                  onCountChange={setVisitorCount}
+                  onConfirm={(e) => handleBooking(e, selectedSlot)}
+                  onCancel={() => navigate("/")}
+                />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+
+          <Route
+            path="/success"
+            element={
+              selectedSlot ? (
+                <SuccessView
+                  visitorName={visitorName}
+                  config={config}
+                  selectedSlot={selectedSlot}
+                  onBack={() => navigate("/")}
+                  onDownloadCalendar={() => onDownloadCalendar(selectedSlot)}
+                />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+
+          <Route
+            path="/admin"
+            element={
+              !isAuthenticated ? (
+                <AdminLogin
+                  password={adminPassword}
+                  onPasswordChange={setAdminPassword}
+                  onSubmit={handleAdminLogin}
+                  onCancel={() => navigate("/")}
+                />
+              ) : (
+                <AdminDashboard
+                  activeTab={adminTab}
+                  onTabChange={setAdminTab}
+                  onLogout={() => setIsAuthenticated(false)}
+                >
+                  {adminTab === "settings" ? (
+                    <ManageSlots
+                      slots={slots}
+                      newSlotDate={newSlotDate}
+                      newSlotStart={newSlotStart}
+                      newSlotEnd={newSlotEnd}
+                      maxVisitors={newMaxVisitors}
+                      onDateChange={setNewSlotDate}
+                      onStartChange={setNewSlotStart}
+                      onEndChange={setNewSlotEnd}
+                      onMaxVisitorsChange={setNewMaxVisitors}
+                      onAddSlot={handleAddSlot}
+                      onDeleteSlot={handleDeleteSlot}
+                    />
+                  ) : (
+                    <Schedule
+                      visits={visits}
+                      onCancelVisit={handleCancelVisit}
+                    />
+                  )}
+                </AdminDashboard>
+              )
+            }
+          />
         </Routes>
       </main>
     </div>

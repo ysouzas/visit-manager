@@ -63,5 +63,9 @@
     "empty": "Ainda não há visitas marcadas. Já partilhou o link com a família?",
     "person": "pessoa",
     "people": "pessoas"
+  },
+  "page": {
+    "title": "Gestor de Visitas -  Mateus",
+    "description": "Bem-vindo Mateus! Escolha um horário abaixo para nos visitar e conhecer a nossa nova adição à família."
   }
 }

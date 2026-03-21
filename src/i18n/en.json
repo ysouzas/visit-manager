@@ -73,5 +73,9 @@
   "schedule": {
     "title": "Booked Visits",
     "empty": "No visits booked yet. Sharing the link with family?"
+  },
+  "page": {
+    "title": "Visit Manager - Mateus",
+    "description": "Welcome Mateus! Pick a time slot below to come say hello and visit the new addition to our family."
   }
 }
