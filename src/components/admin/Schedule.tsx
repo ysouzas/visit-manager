@@ -24,8 +24,8 @@ export const Schedule: React.FC<ScheduleProps> = ({ visits, onCancelVisit }) => 
                 <span className="visit-time">🕒 {visit.starttime} - {visit.endtime}</span>
               </div>
               <div className="visit-visitor-info">
-                <span className="visit-name">{visit.visitorname}</span>
-                <span className="visit-count">{visit.visitorcount} {visit.visitorcount === 1 ? t('common.person') : t('common.people')}</span>
+                <span className="visit-name" style={{ fontWeight: 700, fontSize: '1.1rem' }}>{visit.visitorname}</span>
+                <span className="visit-count" style={{ opacity: 0.7 }}>{visit.visitorcount} {visit.visitorcount === 1 ? t('common.person') : t('common.people')}</span>
               </div>
               <button 
                 className="delete-btn" 

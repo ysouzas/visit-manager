@@ -127,12 +127,11 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header config={config} onAdminClick={() => navigate('/admin')} />
-
       <main className="main-content">
         <Routes>
           <Route path="/" element={
             <div className="fade-in">
+              <Header config={config} onAdminClick={() => navigate('/admin')} />
               {myVisit && <MyBooking myVisit={myVisit} onCancel={() => handleCancelVisit(myVisit)} />}
               <SlotPicker 
                 slots={slots}

@@ -22,12 +22,20 @@ body {
 }
 
 .app-container {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 1rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 h1, h2, h3, h4 {
@@ -39,44 +47,43 @@ h1, h2, h3, h4 {
 /* Hero Section */
 .hero {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 3rem 1.5rem; /* Reduced for mobile */
   background: white;
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-floating);
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   position: relative;
   overflow: hidden;
 }
 
-.hero::after {
-  content: '✈️';
-  position: absolute;
-  top: 10%;
-  right: 10%;
-  font-size: 2rem;
-  opacity: 0.1;
-  transform: rotate(-15deg);
-}
-
 .hero h1 {
-  font-size: 3rem;
+  font-size: 2.2rem; /* Reduced for mobile */
   margin-bottom: 0.5rem;
   line-height: 1.1;
+}
+
+@media (min-width: 600px) {
+  .hero {
+    padding: 4rem 2rem;
+  }
+  .hero h1 {
+    font-size: 3rem;
+  }
 }
 
 .parent-intro {
   font-weight: 600;
   color: var(--color-sky-blue);
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
 }
 
 .subtitle {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #64748b;
   max-width: 600px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 /* Common Components */
@@ -234,28 +241,44 @@ h1, h2, h3, h4 {
 /* Admin Styling */
 .admin-nav {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 3rem;
+  flex-direction: column; /* Stacked by default */
+  gap: 0.75rem;
+  margin-bottom: 2rem;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
-  padding: 0.75rem;
-  border-radius: 50px;
+  padding: 1rem;
+  border-radius: 24px;
   box-shadow: var(--shadow-floating);
   border: 1px solid white;
+}
+
+@media (min-width: 600px) {
+  .admin-nav {
+    flex-direction: row;
+    justify-content: center;
+    border-radius: 50px;
+    padding: 0.75rem;
+  }
 }
 
 .admin-nav .nav-tab {
   background: white;
   color: var(--color-primary-navy);
   border: 2px solid var(--color-sky-blue);
-  padding: 0.5rem 1.5rem;
-  font-size: 0.9rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
   border-radius: 9999px;
   cursor: pointer;
   font-family: var(--font-body);
   font-weight: 700;
   transition: all 0.3s ease;
+  width: 100%; /* Full width on mobile */
+}
+
+@media (min-width: 600px) {
+  .nav-tab {
+    width: auto !important;
+  }
 }
 
 .nav-tab.active {
@@ -294,13 +317,24 @@ h1, h2, h3, h4 {
 
 .visit-item {
   background: white;
-  padding: 1.5rem;
+  padding: 1.25rem;
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-floating);
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Mobile first stack */
+  gap: 1rem;
   align-items: center;
-  margin-bottom: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 600px) {
+  .visit-item {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    align-items: center;
+  }
 }
 
 .visit-time-info {
@@ -308,13 +342,10 @@ h1, h2, h3, h4 {
   flex-direction: column;
 }
 
-.visit-date {
-  font-weight: 700;
-  color: var(--color-primary-navy);
-}
-
-.visit-time {
-  opacity: 0.7;
+.visit-visitor-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 /* Inputs */
@@ -389,9 +420,15 @@ input:focus {
 .visit-details {
   background: linear-gradient(135deg, white 0%, var(--color-bg-cloud) 100%);
   border: 2px dashed var(--color-sky-blue);
-  padding: 2rem;
+  padding: 1.5rem; /* Reduced for mobile */
   border-radius: var(--border-radius-lg);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .visit-details {
+    padding: 2rem;
+  }
 }
 
 .calendar-actions i {

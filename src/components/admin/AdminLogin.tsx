@@ -32,7 +32,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
             autoFocus
           />
         </div>
-        <button type="submit" className="w-full btn-primary">{t('login.submit')}</button>
+        <button type="submit" className="w-full btn-primary">{t('login.sign_in')}</button>
       </form>
     </div>
   );

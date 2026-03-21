@@ -9,7 +9,10 @@
     "no_spots": "Sem Vagas",
     "book_visit": "Agendar Visita",
     "today": "Hoje",
-    "save_local_hint": "As alterações são salvas localmente para este protótipo."
+    "save_local_hint": "As alterações são salvas localmente para este protótipo.",
+    "person": "pessoa",
+    "people": "pessoas",
+    "remove": "Remover"
   },
   "nav": {
     "schedule": "Agenda",
@@ -60,9 +63,7 @@
     "error": "Senha incorreta"
   },
   "schedule": {
-    "title": "Visitas Agendadas",
-    "empty": "Ainda não há visitas agendadas. Já compartilhou o link com a família?",
-    "person": "pessoa",
-    "people": "pessoas"
+    "title": "Vistias agendadas",
+    "empty": "Nenhuma visita agendada ainda. Compartilhou o link com a família?"
   }
 }

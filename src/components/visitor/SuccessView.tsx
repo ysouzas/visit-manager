@@ -31,8 +31,8 @@ export const SuccessView: React.FC<SuccessViewProps> = ({
         </div>
         <div className="calendar-actions">
           <a href={config.mapslink} target="_blank" rel="noreferrer" className="calendar-btn maps">📍 {t('success.open_maps')}</a>
-          <button className="calendar-btn google" onClick={() => onDownloadCalendar('google')}>📅 {t('success.add_google')}</button>
-          <button className="calendar-btn apple" onClick={() => onDownloadCalendar('apple')}>🍎 {t('success.add_apple')}</button>
+          <button className="calendar-btn google" onClick={() => onDownloadCalendar('google')}>📅 {t('success.google_cal')}</button>
+          <button className="calendar-btn apple" onClick={() => onDownloadCalendar('apple')}>🍎 {t('success.add_to_apple')}</button>
           <button className="outline-btn w-full" onClick={onBack}>{t('common.back_to_slots')}</button>
         </div>
       </div>

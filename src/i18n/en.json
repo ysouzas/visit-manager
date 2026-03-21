@@ -9,7 +9,10 @@
     "no_spots": "No Spots",
     "book_visit": "Book Visit",
     "today": "Today",
-    "save_local_hint": "Changes are saved locally for this prototype."
+    "save_local_hint": "Changes are saved locally for this prototype.",
+    "person": "person",
+    "people": "people",
+    "remove": "Remove"
   },
   "nav": {
     "schedule": "Schedule",
@@ -61,8 +64,6 @@
   },
   "schedule": {
     "title": "Booked Visits",
-    "empty": "No visits booked yet. Sharing the link with family?",
-    "person": "person",
-    "people": "people"
+    "empty": "No visits booked yet. Sharing the link with family?"
   }
 }
