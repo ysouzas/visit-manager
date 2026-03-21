@@ -21,7 +21,7 @@
     "logout": "Sair"
   },
   "hero": {
-    "welcome": "Bem-vindo para visitar o {{name}}!",
+    "welcome": "O {{name}} chegou! Venha conhecê-lo!",
     "from": "De {{names}}",
     "subtitle": "Estamos muito felizes em apresentar nossa nova adição! Por favor, escolha um horário abaixo para vir nos ver."
   },
@@ -35,7 +35,11 @@
     "confirm_btn": "Confirmar Reserva",
     "my_visit": "Minha Visita",
     "cancel_btn": "Cancelar Visita",
-    "cancel_confirm": "Tem certeza que deseja cancelar sua visita?"
+    "cancel_confirm": "Tem certeza que deseja cancelar sua visita?",
+    "rescue_btn": "Resgatar agendamento",
+    "rescue_prompt": "Digite seu código de resgate de 6 dígitos",
+    "rescue_success": "Agendamento resgatado com sucesso!",
+    "rescue_error": "Código inválido. Tente novamente."
   },
   "success": {
     "title": "Até breve, {{name}}!",
@@ -45,7 +49,8 @@
     "room": "Quarto",
     "open_maps": "Abrir no Google Maps",
     "google_cal": "Adicionar ao Google Calendar",
-    "add_to_apple": "Adicionar ao Apple Calendar"
+    "add_to_apple": "Adicionar ao Apple Calendar",
+    "rescue_hint": "Guarde seu código de resgate para acessar seu agendamento de outro dispositivo:"
   },
   "settings": {
     "title": "Painel dos Pais",

@@ -89,9 +89,15 @@ function App() {
     if (!error) fetchData();
   };
 
+  // Helper
+  const generateRescueCode = () => {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
+  };
+
   // Visitor Actions
   const handleBooking = async (e: React.FormEvent, slot: TimeSlot) => {
     e.preventDefault();
+    const rescueCode = generateRescueCode();
     const visitData = {
       slotid: slot.id!,
       date: slot.date,
@@ -99,6 +105,7 @@ function App() {
       endtime: slot.endtime,
       visitorname: visitorName,
       visitorcount: visitorCount,
+      rescuecode: rescueCode,
       createdat: new Date().toISOString()
     };
 
@@ -107,7 +114,19 @@ function App() {
       await api.updateSlotVisitors(slot.id!, slot.currentvisitors + visitorCount);
       localStorage.setItem('my_visit_id', savedVisit.id);
       fetchData();
-      navigate('/success');
+      navigate('/success', { state: { rescueCode } });
+    }
+  };
+
+  const handleRescueBooking = async (code: string) => {
+    if (!code) return;
+    const visit = await api.getVisitByCode(code.trim().toUpperCase());
+    if (visit) {
+      localStorage.setItem('my_visit_id', visit.id);
+      fetchData();
+      alert(t('booking.rescue_success'));
+    } else {
+      alert(t('booking.rescue_error'));
     }
   };
 
@@ -133,6 +152,16 @@ function App() {
             <div className="fade-in">
               <Header config={config} onAdminClick={() => navigate('/admin')} />
               {myVisit && <MyBooking myVisit={myVisit} onCancel={() => handleCancelVisit(myVisit)} />}
+              {!myVisit && (
+                <div className="rescue-section">
+                  <button className="text-btn" onClick={() => {
+                    const code = prompt(t('booking.rescue_prompt'));
+                    if (code) handleRescueBooking(code);
+                  }}>
+                    ✨ {t('booking.rescue_btn')}
+                  </button>
+                </div>
+              )}
               <SlotPicker 
                 slots={slots}
                 selectedDate={slots.length > 0 ? slots[0].date : ''} 

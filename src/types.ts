@@ -15,6 +15,7 @@ export interface Visit {
   endtime: string;
   visitorname: string;
   visitorcount: number;
+  rescuecode: string;
   createdat: string;
 }
 

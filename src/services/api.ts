@@ -47,6 +47,12 @@ export const api = {
     return supabase.from('visits').insert([visit]).select().single();
   },
 
+  async getVisitByCode(code: string): Promise<Visit | null> {
+    const { data, error } = await supabase.from('visits').select('*').eq('rescuecode', code).single();
+    if (error) return null;
+    return data as Visit;
+  },
+
   async getVisitById(id: string): Promise<Visit | null> {
     const { data, error } = await supabase.from('visits').select('*').eq('id', id).single();
     if (error) return null;

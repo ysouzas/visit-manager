@@ -113,6 +113,20 @@ h1, h2, h3, h4 {
   white-space: nowrap;
 }
 
+.text-btn {
+  background: transparent;
+  color: var(--color-primary-navy);
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.text-btn:hover {
+  opacity: 1;
+  color: var(--color-sky-blue);
+}
+
 .top-actions {
   position: fixed;
   top: 1.5rem;
@@ -452,4 +466,47 @@ input:focus {
   color: var(--color-sky-blue);
   font-family: var(--font-heading);
   font-size: 1.5rem;
+}
+
+/* Rescue UI */
+.rescue-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.rescue-code-info {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.rescue-badge {
+  display: inline-block;
+  background: var(--color-star-gold);
+  color: var(--color-primary-navy);
+  font-family: monospace;
+  font-size: 2rem;
+  font-weight: 900;
+  padding: 0.5rem 2rem;
+  border-radius: 12px;
+  letter-spacing: 4px;
+  box-shadow: 0 4px 10px rgba(255, 183, 3, 0.3);
+  margin-top: 0.5rem;
+}
+
+.copy-btn {
+  background: var(--color-sky-blue);
+  color: var(--color-primary-navy);
+  border: none;
+  border-radius: 50px;
+  padding: 0.8rem 1.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+  margin: 1rem 0;
+  transition: transform 0.2s;
+}
+
+.copy-btn:hover {
+  transform: scale(1.05);
+  background: var(--color-star-gold);
 }

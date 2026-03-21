@@ -35,7 +35,11 @@
     "confirm_btn": "Confirm Booking",
     "my_visit": "My Visit",
     "cancel_btn": "Cancel Visit",
-    "cancel_confirm": "Are you sure you want to cancel your visit?"
+    "cancel_confirm": "Are you sure you want to cancel your visit?",
+    "rescue_btn": "Rescue your booking",
+    "rescue_prompt": "Enter your 6-digit rescue code",
+    "rescue_success": "Booking rescued successfully!",
+    "rescue_error": "Invalid code. Please try again."
   },
   "success": {
     "title": "See you soon, {{name}}!",
@@ -45,7 +49,11 @@
     "room": "Room",
     "open_maps": "Open in Google Maps",
     "google_cal": "Add to Google Calendar",
-    "add_to_apple": "Add to Apple Calendar"
+    "add_to_apple": "Add to Apple Calendar",
+    "rescue_hint": "Save your rescue code to access your booking from another device:",
+    "copy_info": "Copy Booking Info",
+    "copy_success": "Information copied to clipboard!",
+    "copy_template": "Hi! I've booked a visit to see {{babyName}}.\n\n📅 When: {{date}}, {{time}}\n📍 Where: {{where}}, Room {{room}}\n✨ Rescue Code: {{code}}\n🔗 Link: {{url}}"
   },
   "settings": {
     "title": "Parent Dashboard",

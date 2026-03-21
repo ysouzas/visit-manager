@@ -17,7 +17,8 @@ i18n
       'pt-BR': { translation: ptBR },
       fr: { translation: fr },
     },
-    fallbackLng: 'en',
+    lng: 'pt-BR', // Set default language
+    fallbackLng: 'pt-BR', // Set fallback language
     interpolation: {
       escapeValue: false,
     },
