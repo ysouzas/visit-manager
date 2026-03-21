@@ -28,7 +28,10 @@
     "visitor_name": "Your Name",
     "visitor_name_placeholder": "e.g. Grandma Jane",
     "visitor_count": "Number of Visitors",
-    "confirm_btn": "Confirm Visit"
+    "confirm_btn": "Confirm Booking",
+    "my_visit": "My Visit",
+    "cancel_btn": "Cancel Visit",
+    "cancel_confirm": "Are you sure you want to cancel your visit?"
   },
   "success": {
     "title": "See you soon, {{name}}!",

@@ -25,6 +25,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pendingView, setPendingView] = useState<'settings' | 'schedule' | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [myVisit, setMyVisit] = useState<Visit | null>(null);
 
   // Slot Management State (Settings)
   const [newSlotDate, setNewSlotDate] = useState(new Date().toISOString().split('T')[0]);
@@ -60,7 +61,18 @@ function App() {
       setSelectedDate(slotsData[0].date);
     }
 
-    // 3. Fetch Visits
+    // 3. Fetch My Visit (Persistence)
+    const myVisitId = localStorage.getItem('my_visit_id');
+    if (myVisitId) {
+      const { data: vData } = await supabase.from('visits').select('*').eq('id', myVisitId).single();
+      if (vData) {
+        setMyVisit(vData);
+      } else {
+        localStorage.removeItem('my_visit_id');
+      }
+    }
+
+    // 4. Fetch Visits (Admin)
     const { data: visitsData, error: visitsError } = await supabase
       .from('visits')
       .select('*');
@@ -134,6 +146,11 @@ function App() {
 
     setVisits(prev => [...prev, savedVisit as Visit]);
     setSlots(prev => prev.map(s => s.id === selectedSlot.id ? { ...s, currentvisitors: newCount } : s));
+    
+    // Persistence
+    localStorage.setItem('my_visit_id', savedVisit.id);
+    setMyVisit(savedVisit);
+    
     setView('success');
   };
 
@@ -179,6 +196,26 @@ function App() {
     }
   };
 
+  const handleCancelVisit = async () => {
+    if (!myVisit || !confirm(t('booking.cancel_confirm'))) return;
+    
+    // 1. Update Slot
+    const { data: sData } = await supabase.from('slots').select('currentvisitors').eq('id', myVisit.slotid).single();
+    if (sData) {
+      await supabase.from('slots').update({
+        currentvisitors: Math.max(0, sData.currentvisitors - myVisit.visitorcount)
+      }).eq('id', myVisit.slotid);
+    }
+    
+    // 2. Delete Visit
+    await supabase.from('visits').delete().eq('id', myVisit.id);
+    
+    // 3. Clear Local State
+    localStorage.removeItem('my_visit_id');
+    setMyVisit(null);
+    fetchData(); // Refresh slots
+  };
+
   const formatDateShort = (dateStr: string) => {
     return new Date(dateStr + 'T12:00:00').toLocaleDateString(i18n.language, { 
       weekday: 'short', day: 'numeric', month: 'short' 
@@ -193,12 +230,25 @@ function App() {
       <div className="fade-in">
         <header className="hero">
           <div className="top-actions">
-            <button className="nav-btn" onClick={handleAdminClick}>🔒 {t('nav.admin')}</button>
+            <button className="nav-btn" onClick={handleAdminClick} title={t('nav.admin')}>⚙️</button>
           </div>
-          <h1>{t('hero.welcome', { name: config.babyname })}</h1>
+          <h1>✈️ {t('hero.welcome', { name: config.babyname })} ✈️</h1>
           <p className="parent-intro">{t('hero.from', { names: config.parentnames })}</p>
-          <p className="subtitle">{t('hero.subtitle')}</p>
+          <p className="subtitle">⭐ {t('hero.subtitle')} ⭐</p>
         </header>
+
+        {myVisit && (
+          <div className="card fade-in" style={{ border: '2px solid var(--color-sky-blue)', background: 'var(--color-bg-cloud)' }}>
+            <h2 style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>☁️ {t('booking.my_visit')} ☁️</h2>
+            <div style={{ marginBottom: '1.5rem' }}>
+              <p><strong>📅 {new Date(myVisit.date + 'T12:00:00').toLocaleDateString(i18n.language, { weekday: 'long', month: 'long', day: 'numeric' })}</strong></p>
+              <p>🕒 {myVisit.starttime} - {myVisit.endtime}</p>
+            </div>
+            <button className="w-full" style={{ background: 'var(--color-accent-red)', color: 'white' }} onClick={handleCancelVisit}>
+              {t('booking.cancel_btn')}
+            </button>
+          </div>
+        )}
 
         {isLoading ? (
           <div className="loading-spinner">Loading...</div>
@@ -276,12 +326,12 @@ function App() {
   const renderSuccess = () => (
     <div className="fade-in success-view">
       <div className="card">
-        <div className="success-icon">🎉</div>
+        <div className="success-icon">🎈✈️⭐</div>
         <h2>{t('success.title', { name: visitorname })}</h2>
-        <p><Trans i18nKey="success.message" values={{ babyName: config.babyname }}>You're all set to visit <strong>{config.babyname}</strong>.</Trans></p>
+        <p><Trans i18nKey="success.message" values={{ babyName: config.babyname }}>You're all set to visit <strong>{config.babyname}</strong> ☁️.</Trans></p>
         <div className="visit-details">
-          <p><strong>{t('success.where')}:</strong> {config.hospitalname}, {t('success.room')} {config.roomnumber}</p>
-          <p><strong>{t('success.when')}:</strong> {selectedSlot && new Date(selectedSlot.date + 'T12:00:00').toLocaleDateString(i18n.language, { weekday: 'long', month: 'long', day: 'numeric' })}, {selectedSlot?.starttime} - {selectedSlot?.endtime}</p>
+          <p><strong>📍 {t('success.where')}:</strong> {config.hospitalname}, {t('success.room')} {config.roomnumber}</p>
+          <p><strong>📅 {t('success.when')}:</strong> {selectedSlot && new Date(selectedSlot.date + 'T12:00:00').toLocaleDateString(i18n.language, { weekday: 'long', month: 'long', day: 'numeric' })}, {selectedSlot?.starttime} - {selectedSlot?.endtime}</p>
         </div>
         <div className="calendar-actions">
           <a href={config.mapslink} target="_blank" rel="noreferrer" className="calendar-btn maps">📍 {t('success.open_maps')}</a>
@@ -325,7 +375,7 @@ function App() {
         </div>
       </div>
       <div className="card settings-card">
-        <h2>Manage Time Slots</h2>
+        <h2>☁️ Manage Time Slots ☁️</h2>
         <p className="hint" style={{ marginTop: 0, marginBottom: '1rem' }}>Tip: Enter a range (e.g. 10:00 to 19:00) to auto-generate hourly slots.</p>
         <div className="add-slot-form">
           <div className="input-group">
@@ -347,7 +397,7 @@ function App() {
         <div className="manage-slots-list">
           {slots.map(slot => (
             <div key={slot.id} className="manage-slot-item">
-              <span>{slot.date} | {slot.starttime}-{slot.endtime}</span>
+              <span>📅 {slot.date}  |  🕒 {slot.starttime} - {slot.endtime}</span>
               <button className="delete-btn" onClick={() => slot.id && handleDeleteSlot(slot.id)}>Remove</button>
             </div>
           ))}
@@ -368,7 +418,7 @@ function App() {
         <button className="back-btn" onClick={() => setView('list')}>← {t('common.back_to_slots')}</button>
       )}
       <div className="card schedule-card">
-        <h2>{t('schedule.title')}</h2>
+        <h2>☁️ {t('schedule.title')} ☁️</h2>
         {visits.length === 0 ? (
           <p className="no-visits">{t('schedule.empty')}</p>
         ) : (
@@ -376,8 +426,8 @@ function App() {
             {visits.sort((a, b) => (a.date + a.starttime).localeCompare(b.date + b.starttime)).map(visit => (
               <div key={visit.id} className="visit-item">
                 <div className="visit-time-info">
-                  <span className="visit-date">{new Date(visit.date + 'T12:00:00').toLocaleDateString(i18n.language, { month: 'short', day: 'numeric' })}</span>
-                  <span className="visit-time">{visit.starttime} - {visit.endtime}</span>
+                  <span className="visit-date">📅 {new Date(visit.date + 'T12:00:00').toLocaleDateString(i18n.language, { month: 'short', day: 'numeric' })}</span>
+                  <span className="visit-time">🕒 {visit.starttime} - {visit.endtime}</span>
                 </div>
                 <div className="visit-visitor-info">
                   <span className="visit-name">{visit.visitorname}</span>

@@ -28,7 +28,10 @@
     "visitor_name": "O seu Nome",
     "visitor_name_placeholder": "ex: Avó Joana",
     "visitor_count": "Número de Visitantes",
-    "confirm_btn": "Confirmar Visita"
+    "confirm_btn": "Confirmar Reserva",
+    "my_visit": "A Minha Visita",
+    "cancel_btn": "Cancelar Visita",
+    "cancel_confirm": "Tem a certeza que deseja cancelar a sua visita?"
   },
   "success": {
     "title": "Vemo-nos em breve, {{name}}!",

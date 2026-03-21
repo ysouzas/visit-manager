@@ -28,7 +28,10 @@
     "visitor_name": "Votre Nom",
     "visitor_name_placeholder": "ex: Mamie Jeanne",
     "visitor_count": "Nombre de Visiteurs",
-    "confirm_btn": "Confirmer la visite"
+    "confirm_btn": "Confirmer la visite",
+    "my_visit": "Ma Visite",
+    "cancel_btn": "Annuler la Visite",
+    "cancel_confirm": "Êtes-vous sûr de vouloir annuler votre visite ?"
   },
   "success": {
     "title": "À bientôt, {{name}} !",
