@@ -50,7 +50,10 @@
     "open_maps": "Abrir no Google Maps",
     "google_cal": "Adicionar ao Google Calendar",
     "add_to_apple": "Adicionar ao Apple Calendar",
-    "rescue_hint": "Guarde seu código de resgate para acessar seu agendamento de outro dispositivo:"
+    "rescue_hint": "Guarde seu código de resgate para acessar seu agendamento de outro dispositivo:",
+    "share_info": "Compartilhar Visita",
+    "copy_success": "Informações copiadas!",
+    "copy_template": "Olá! Agendei uma visita para ver o {{babyName}}.\n\n📅 Quando: {{date}}, {{time}}\n📍 Onde: {{where}}, Quarto {{room}}\n✨ Código de Resgate: {{code}}\n🔗 Link: {{url}}"
   },
   "settings": {
     "title": "Painel dos Pais",

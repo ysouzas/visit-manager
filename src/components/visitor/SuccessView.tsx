@@ -22,11 +22,12 @@ export const SuccessView: React.FC<SuccessViewProps> = ({
   const location = useLocation();
   const rescueCode = location.state?.rescueCode;
 
-  const handleCopyInfo = () => {
+  const handleShareInfo = () => {
     const date = selectedSlot ? new Date(selectedSlot.date + 'T12:00:00').toLocaleDateString(i18n.language, { weekday: 'long', month: 'long', day: 'numeric' }) : '';
     const time = `${selectedSlot?.starttime} - ${selectedSlot?.endtime}`;
     const url = window.location.origin;
 
+    const title = t('success.share_info');
     const text = t('success.copy_template', {
       babyName: config.babyname,
       date,
@@ -37,9 +38,16 @@ export const SuccessView: React.FC<SuccessViewProps> = ({
       url
     });
 
-    navigator.clipboard.writeText(text).then(() => {
-      alert(t('success.copy_success'));
-    });
+    if (navigator.share) {
+      navigator.share({ title, text, url }).catch(() => {
+        // Fallback to clipboard if share fails or is cancelled
+        navigator.clipboard.writeText(text);
+      });
+    } else {
+      navigator.clipboard.writeText(text).then(() => {
+        alert(t('success.copy_success'));
+      });
+    }
   };
 
   return (
@@ -49,8 +57,8 @@ export const SuccessView: React.FC<SuccessViewProps> = ({
         <h2>{t('success.title', { name: visitorName })}</h2>
         <p><Trans i18nKey="success.message" values={{ babyName: config.babyname }}>You're all set to visit <strong>{config.babyname}</strong> ☁️.</Trans></p>
         
-        <button className="copy-btn" onClick={handleCopyInfo}>
-          📋 {t('success.copy_info')}
+        <button className="copy-btn" onClick={handleShareInfo}>
+          📤 {t('success.share_info')}
         </button>
         
         {rescueCode && (
