@@ -2,14 +2,19 @@ import { useState, useEffect } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { supabase } from './supabaseClient';
 import type { TimeSlot, ParentConfig, Visit } from './types';
-import { INITIAL_SLOTS, INITIAL_CONFIG } from './mockData';
 import { generateGoogleCalendarLink, generateICSFile } from './utils/calendar';
 import './App.css';
 
 function App() {
   const { t, i18n } = useTranslation();
   const [slots, setSlots] = useState<TimeSlot[]>([]);
-  const [config, setConfig] = useState<ParentConfig>(INITIAL_CONFIG);
+  const [config, setConfig] = useState<ParentConfig>({
+    babyname: '',
+    parentnames: '',
+    hospitalname: '',
+    roomnumber: '',
+    mapslink: 'https://maps.app.goo.gl/YduTVuUDAxRi8mEW8'
+  });
   const [visits, setVisits] = useState<Visit[]>([]);
   const [view, setView] = useState<'list' | 'booking' | 'success' | 'settings' | 'schedule' | 'login'>('list');
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
@@ -28,14 +33,6 @@ function App() {
 
   useEffect(() => {
     fetchData();
-    if (window.location.pathname === '/parents') {
-      if (!isAuthenticated) {
-        setView('login');
-        setPendingView('settings');
-      } else {
-        setView('settings');
-      }
-    }
   }, [isAuthenticated]);
 
   async function fetchData() {
@@ -49,8 +46,6 @@ function App() {
     
     if (!configError && configData) {
       setConfig(configData);
-    } else if (configError && configError.code === 'PGRST116') {
-      await supabase.from('settings').insert([INITIAL_CONFIG]);
     }
 
     // 2. Fetch Slots
@@ -63,12 +58,6 @@ function App() {
     if (!slotsError && slotsData && slotsData.length > 0) {
       setSlots(slotsData);
       setSelectedDate(slotsData[0].date);
-    } else if (!slotsError && (!slotsData || slotsData.length === 0)) {
-      const { data: seededSlots } = await supabase.from('slots').insert(INITIAL_SLOTS).select();
-      if (seededSlots) {
-        setSlots(seededSlots);
-        setSelectedDate(seededSlots[0].date);
-      }
     }
 
     // 3. Fetch Visits
@@ -88,16 +77,22 @@ function App() {
     setSelectedSlot(slot);
     setView('booking');
   };
-
+  
+  const handleAdminClick = () => {
+    if (isAuthenticated) {
+      setView('settings');
+    } else {
+      setPendingView('settings');
+      setView('login');
+    }
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'newborn2026';
     if (password === adminPassword) {
       setIsAuthenticated(true);
-      if (window.location.pathname === '/parents') {
-        setView('settings');
-      } else if (pendingView) {
+      if (pendingView) {
         setView(pendingView);
         setPendingView(null);
       } else {
@@ -197,6 +192,9 @@ function App() {
     return (
       <div className="fade-in">
         <header className="hero">
+          <div className="top-actions">
+            <button className="nav-btn" onClick={handleAdminClick}>🔒 {t('nav.admin')}</button>
+          </div>
           <h1>{t('hero.welcome', { name: config.babyname })}</h1>
           <p className="parent-intro">{t('hero.from', { names: config.parentnames })}</p>
           <p className="subtitle">{t('hero.subtitle')}</p>
@@ -298,7 +296,7 @@ function App() {
 
   const renderSettings = () => (
     <div className="fade-in">
-      {window.location.pathname === '/parents' ? (
+      {isAuthenticated ? (
         <div className="admin-nav">
           <button className={`nav-tab ${view === 'settings' ? 'active' : ''}`} onClick={() => setView('settings')}>⚙️ {t('nav.settings')}</button>
           <button className={`nav-tab ${view === 'schedule' ? 'active' : ''}`} onClick={() => setView('schedule')}>📅 {t('nav.schedule')}</button>
@@ -360,7 +358,7 @@ function App() {
 
   const renderSchedule = () => (
     <div className="fade-in">
-      {window.location.pathname === '/parents' ? (
+      {isAuthenticated ? (
         <div className="admin-nav">
           <button className={`nav-tab ${view === 'settings' ? 'active' : ''}`} onClick={() => setView('settings')}>⚙️ {t('nav.settings')}</button>
           <button className={`nav-tab ${view === 'schedule' ? 'active' : ''}`} onClick={() => setView('schedule')}>📅 {t('nav.schedule')}</button>

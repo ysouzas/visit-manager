@@ -13,7 +13,8 @@
   },
   "nav": {
     "schedule": "Agenda",
-    "settings": "Definições"
+    "settings": "Definições",
+    "admin": "Admin"
   },
   "hero": {
     "welcome": "Bem-vindo a visitar o {{name}}!",

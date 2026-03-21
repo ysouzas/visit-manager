@@ -13,7 +13,8 @@
   },
   "nav": {
     "schedule": "Schedule",
-    "settings": "Settings"
+    "settings": "Settings",
+    "admin": "Admin"
   },
   "hero": {
     "welcome": "Welcome to see {{name}}!",

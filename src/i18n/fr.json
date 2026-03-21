@@ -13,7 +13,8 @@
   },
   "nav": {
     "schedule": "Planning",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "admin": "Admin"
   },
   "hero": {
     "welcome": "Bienvenue pour voir {{name}} !",
