@@ -38,7 +38,7 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({
 
       <div className="hour-grid">
         {slotsForDate.map(slot => {
-          const isFull = slot.currentvisitors >= 10;
+          const isFull = slot.currentvisitors >= slot.maxvisitors;
           return (
               <button
                 key={slot.id}
