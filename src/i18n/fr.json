@@ -48,7 +48,9 @@
     "baby_name": "Nom du bébé",
     "parent_names": "Noms des parents",
     "hospital_name": "Nom de l'hôpital",
-    "maps_link": "Lien Google Maps"
+    "maps_link": "Lien Google Maps",
+    "parent_config": "Configuration des Parents",
+    "manage_slots": "Gérer les Créneaux"
   },
   "login": {
     "title": "Accès Administrateur",

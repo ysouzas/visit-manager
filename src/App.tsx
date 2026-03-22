@@ -16,6 +16,7 @@ import { AdminLogin } from "./components/admin/AdminLogin";
 import { AdminDashboard } from "./components/admin/AdminDashboard";
 import { ManageSlots } from "./components/admin/ManageSlots";
 import { Schedule } from "./components/admin/Schedule";
+import { ConfigForm } from "./components/admin/ConfigForm";
 
 import "./App.css";
 
@@ -32,10 +33,15 @@ function App() {
     isLoading,
     fetchData,
     handleCancelVisit,
+    handleUpdateConfig,
   } = useAppData();
+
+  // Track if we've done initial redirect to prevent loop
+  const redirectDoneRef = React.useRef(false);
 
   // Admin State
   const [adminTab, setAdminTab] = useState<"schedule" | "settings">("schedule");
+  const [settingsTab, setSettingsTab] = useState<"parent" | "slots">("parent");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Selection State
@@ -43,6 +49,7 @@ function App() {
   const [visitorName, setVisitorName] = useState("");
   const [visitorCount, setVisitorCount] = useState(1);
   const [adminPassword, setAdminPassword] = useState("");
+  const [rescueCode, setRescueCode] = useState("");
 
   const [newSlotDate, setNewSlotDate] = useState(
     new Date().toISOString().split("T")[0],
@@ -86,6 +93,26 @@ function App() {
       twitterDescription.setAttribute("content", t("page.description"));
     }
   }, [t]);
+
+  // Reset redirect flag when visit is cancelled
+  useEffect(() => {
+    if (!myVisit) {
+      redirectDoneRef.current = false;
+    }
+  }, [myVisit]);
+
+  // Redirect to success page if user has a stored visit (only on initial load)
+  useEffect(() => {
+    if (
+      !isLoading &&
+      myVisit &&
+      !redirectDoneRef.current &&
+      window.location.pathname === "/"
+    ) {
+      redirectDoneRef.current = true;
+      navigate("/success", { state: { rescueCode: myVisit.rescuecode } });
+    }
+  }, [isLoading, navigate, myVisit]);
 
   // Admin Actions
   const handleAdminLogin = (e: React.FormEvent) => {
@@ -170,8 +197,11 @@ function App() {
     const visit = await api.getVisitByCode(code.trim().toUpperCase());
     if (visit) {
       localStorage.setItem("my_visit_id", visit.id);
+      setRescueCode(code.trim().toUpperCase());
       fetchData();
-      alert(t("booking.rescue_success"));
+      navigate("/success", {
+        state: { rescueCode: code.trim().toUpperCase() },
+      });
     } else {
       alert(t("booking.rescue_error"));
     }
@@ -260,13 +290,18 @@ function App() {
           <Route
             path="/success"
             element={
-              selectedSlot ? (
+              myVisit || selectedSlot ? (
                 <SuccessView
                   visitorName={visitorName}
                   config={config}
                   selectedSlot={selectedSlot}
+                  myVisit={myVisit}
                   onBack={() => navigate("/")}
-                  onDownloadCalendar={() => onDownloadCalendar(selectedSlot)}
+                  onDownloadCalendar={(type) => {
+                    if (selectedSlot) {
+                      onDownloadCalendar(selectedSlot);
+                    }
+                  }}
                 />
               ) : (
                 <Navigate to="/" />
@@ -291,19 +326,43 @@ function App() {
                   onLogout={() => setIsAuthenticated(false)}
                 >
                   {adminTab === "settings" ? (
-                    <ManageSlots
-                      slots={slots}
-                      newSlotDate={newSlotDate}
-                      newSlotStart={newSlotStart}
-                      newSlotEnd={newSlotEnd}
-                      maxVisitors={newMaxVisitors}
-                      onDateChange={setNewSlotDate}
-                      onStartChange={setNewSlotStart}
-                      onEndChange={setNewSlotEnd}
-                      onMaxVisitorsChange={setNewMaxVisitors}
-                      onAddSlot={handleAddSlot}
-                      onDeleteSlot={handleDeleteSlot}
-                    />
+                    <div>
+                      <div className="sub-nav">
+                        <button
+                          className={`nav-tab ${settingsTab === "parent" ? "active" : ""}`}
+                          onClick={() => setSettingsTab("parent")}
+                        >
+                          {t("settings.parent_config")}
+                        </button>
+                        <button
+                          className={`nav-tab ${settingsTab === "slots" ? "active" : ""}`}
+                          onClick={() => setSettingsTab("slots")}
+                        >
+                          {t("settings.manage_slots")}
+                        </button>
+                      </div>
+
+                      {settingsTab === "parent" ? (
+                        <ConfigForm
+                          config={config}
+                          onSave={handleUpdateConfig}
+                        />
+                      ) : (
+                        <ManageSlots
+                          slots={slots}
+                          newSlotDate={newSlotDate}
+                          newSlotStart={newSlotStart}
+                          newSlotEnd={newSlotEnd}
+                          maxVisitors={newMaxVisitors}
+                          onDateChange={setNewSlotDate}
+                          onStartChange={setNewSlotStart}
+                          onEndChange={setNewSlotEnd}
+                          onMaxVisitorsChange={setNewMaxVisitors}
+                          onAddSlot={handleAddSlot}
+                          onDeleteSlot={handleDeleteSlot}
+                        />
+                      )}
+                    </div>
                   ) : (
                     <Schedule
                       visits={visits}

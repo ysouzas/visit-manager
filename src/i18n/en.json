@@ -12,7 +12,15 @@
     "save_local_hint": "Changes are saved locally for this prototype.",
     "person": "person",
     "people": "people",
-    "remove": "Remove"
+    "remove": "Remove",
+    "save": "Save"
+  },
+  "config": {
+    "babyname": "Baby's Name",
+    "parentnames": "Parent Names",
+    "hospitalname": "Hospital Name",
+    "roomnumber": "Room Number",
+    "mapslink": "Google Maps Link"
   },
   "nav": {
     "schedule": "Schedule",
@@ -60,7 +68,9 @@
     "baby_name": "Baby's Name",
     "parent_names": "Parent Names",
     "hospital_name": "Hospital Name",
-    "maps_link": "Google Maps Link"
+    "maps_link": "Google Maps Link",
+    "parent_config": "Parent Config",
+    "manage_slots": "Manage Slots"
   },
   "login": {
     "title": "Admin Access",

@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import { api } from '../services/api';
-import type { TimeSlot, Visit, ParentConfig } from '../types';
+import { useEffect, useState } from "react";
+import { api } from "../services/api";
+import type { ParentConfig, TimeSlot, Visit } from "../types";
 
 export function useAppData() {
   const [config, setConfig] = useState<ParentConfig>({
-    babyname: '',
-    parentnames: '',
-    hospitalname: '',
-    roomnumber: '',
-    mapslink: ''
+    babyname: "",
+    parentnames: "",
+    hospitalname: "",
+    roomnumber: "",
+    mapslink: "",
   });
   const [slots, setSlots] = useState<TimeSlot[]>([]);
   const [visits, setVisits] = useState<Visit[]>([]);
@@ -17,7 +17,7 @@ export function useAppData() {
 
   const fetchData = async () => {
     setIsLoading(true);
-    
+
     // 1. Settings
     const settings = await api.getSettings();
     if (settings) setConfig(settings);
@@ -27,13 +27,13 @@ export function useAppData() {
     setSlots(slotsData);
 
     // 3. My Visit (Persistence)
-    const myVisitId = localStorage.getItem('my_visit_id');
+    const myVisitId = localStorage.getItem("my_visit_id");
     if (myVisitId) {
       const vData = await api.getVisitById(myVisitId);
       if (vData) {
         setMyVisit(vData);
       } else {
-        localStorage.removeItem('my_visit_id');
+        localStorage.removeItem("my_visit_id");
       }
     }
 
@@ -50,27 +50,35 @@ export function useAppData() {
 
   const handleCancelVisit = async (visitToCancel: Visit) => {
     const isMyVisit = myVisit?.id === visitToCancel.id;
-    
+
     // 1. Update Slot
     await api.updateSlotVisitors(visitToCancel.slotid, 0); // Need to get current first
     // Refined logic: better to get current visitors and decrement
     const currentSlots = await api.getSlots();
-    const slot = currentSlots.find(s => s.id === visitToCancel.slotid);
+    const slot = currentSlots.find((s) => s.id === visitToCancel.slotid);
     if (slot) {
-      const newCount = Math.max(0, slot.currentvisitors - visitToCancel.visitorcount);
+      const newCount = Math.max(
+        0,
+        slot.currentvisitors - visitToCancel.visitorcount,
+      );
       await api.updateSlotVisitors(slot.id!, newCount);
     }
-    
+
     // 2. Delete Visit
     await api.deleteVisit(visitToCancel.id!);
-    
+
     // 3. Clear Local State if it was my visit
     if (isMyVisit) {
-      localStorage.removeItem('my_visit_id');
+      localStorage.removeItem("my_visit_id");
       setMyVisit(null);
     }
-    
+
     // 4. Refresh everything
+    fetchData();
+  };
+
+  const handleUpdateConfig = async (newConfig: ParentConfig) => {
+    await api.updateSettings(newConfig);
     fetchData();
   };
 
@@ -85,6 +93,7 @@ export function useAppData() {
     setMyVisit,
     isLoading,
     fetchData,
-    handleCancelVisit
+    handleCancelVisit,
+    handleUpdateConfig,
   };
 }

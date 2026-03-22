@@ -60,7 +60,9 @@
     "baby_name": "Nome do Bebê",
     "parent_names": "Nomes dos Pais",
     "hospital_name": "Nome do Hospital",
-    "maps_link": "Link Google Maps"
+    "maps_link": "Link Google Maps",
+    "parent_config": "Configuração dos Pais",
+    "manage_slots": "Gerenciar Horários"
   },
   "login": {
     "title": "Acesso de Administrador",
