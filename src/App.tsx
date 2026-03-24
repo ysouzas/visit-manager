@@ -4,7 +4,7 @@ import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useAppData } from "./hooks/useAppData";
 import { api } from "./services/api";
 import type { TimeSlot } from "./types";
-import { generateGoogleCalendarLink } from "./utils/calendar";
+import { generateGoogleCalendarLink, generateICSFile } from "./utils/calendar";
 
 // Components
 import { Header } from "./components/layout/Header";
@@ -49,7 +49,6 @@ function App() {
   const [visitorName, setVisitorName] = useState("");
   const [visitorCount, setVisitorCount] = useState(1);
   const [adminPassword, setAdminPassword] = useState("");
-  const [rescueCode, setRescueCode] = useState("");
 
   const [newSlotDate, setNewSlotDate] = useState(
     new Date().toISOString().split("T")[0],
@@ -197,7 +196,6 @@ function App() {
     const visit = await api.getVisitByCode(code.trim().toUpperCase());
     if (visit) {
       localStorage.setItem("my_visit_id", visit.id);
-      setRescueCode(code.trim().toUpperCase());
       fetchData();
       navigate("/success", {
         state: { rescueCode: code.trim().toUpperCase() },
@@ -207,9 +205,26 @@ function App() {
     }
   };
 
-  const onDownloadCalendar = (slot: TimeSlot) => {
+  const onDownloadCalendar = (type: "apple" | "google") => {
+    const slot =
+      selectedSlot ||
+      (myVisit
+        ? ({
+            date: myVisit.date,
+            starttime: myVisit.starttime,
+            endtime: myVisit.endtime,
+          } as TimeSlot)
+        : null);
     if (!slot) return;
-    window.open(generateGoogleCalendarLink(slot, config), "_blank");
+    if (type === "google") {
+      window.open(generateGoogleCalendarLink(slot, config), "_blank");
+    } else {
+      const url = generateICSFile(slot, config);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "visit.ics";
+      a.click();
+    }
   };
 
   const formatDateShort = (dateStr: string) => {
@@ -297,11 +312,7 @@ function App() {
                   selectedSlot={selectedSlot}
                   myVisit={myVisit}
                   onBack={() => navigate("/")}
-                  onDownloadCalendar={(type) => {
-                    if (selectedSlot) {
-                      onDownloadCalendar(selectedSlot);
-                    }
-                  }}
+                  onDownloadCalendar={onDownloadCalendar}
                 />
               ) : (
                 <Navigate to="/" />
